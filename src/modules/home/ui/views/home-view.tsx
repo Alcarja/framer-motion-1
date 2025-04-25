@@ -28,6 +28,15 @@ export const HomeView = () => {
     y >= 1200 ? "#FEF9F0" : "#000000"
   );
 
+  const textOpacity = useTransform(scrollY, [1250, 1600], [0, 1]);
+  const textY = useTransform(scrollY, [1250, 1600], [50, 0]);
+
+  const icon1X = useTransform(scrollY, [1250, 1600], [0, -300]); // move left
+  const icon1Y = useTransform(scrollY, [1250, 1600], [0, -200]); // move up
+
+  const icon2X = useTransform(scrollY, [1250, 1600], [0, -10]); // move left
+  const icon2Y = useTransform(scrollY, [1250, 1600], [0, 450]); // move down
+
   return (
     <motion.div style={{ backgroundColor }}>
       {/* Fullscreen Intro */}
@@ -64,12 +73,21 @@ export const HomeView = () => {
             transition={{ duration: 0.3, ease: "easeOut" }}
             className="flex flex-row items-center justify-center gap-1"
           >
-            <div className="rounded-full bg-[#FFC313] w-60 h-60 flex items-center justify-center border border-black">
+            {/* Icon 1 */}
+            <motion.div
+              className="rounded-full bg-[#FFC313] w-60 h-60 flex items-center justify-center border border-black"
+              style={{ x: icon1X, y: icon1Y }}
+            >
               <GhostIcon className="w-50 h-50 text-black" />
-            </div>
-            <div className="rounded-full bg-[#7A78FF] w-60 h-60 flex items-center justify-center border border-black">
+            </motion.div>
+
+            {/* Icon 2 */}
+            <motion.div
+              className="rounded-full bg-[#7A78FF] w-60 h-60 flex items-center justify-center border border-black"
+              style={{ x: icon2X, y: icon2Y }}
+            >
               <MoveIcon className="w-50 h-50 text-black" />
-            </div>
+            </motion.div>
             <div className="rounded-full bg-[#04A552] w-60 h-60 flex items-center justify-center border border-black">
               <FilmIcon className="w-50 h-50 text-black" />
             </div>
@@ -80,10 +98,20 @@ export const HomeView = () => {
               <FileIcon className="w-50 h-50 text-black" />
             </div>
           </motion.div>
+
+          <motion.div
+            style={{ opacity: textOpacity, y: textY }}
+            className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-center max-w-md z-10"
+          >
+            <h2 className="text-4xl font-bold text-black">
+              Empower the Future of Data
+            </h2>
+            <p className="text-lg mt-2 text-gray-700">
+              Youre not just the product. Youre the owner.
+            </p>
+          </motion.div>
         </div>
       </div>
-
-      <div className="h-[100vh]" />
     </motion.div>
   );
 };
