@@ -15,7 +15,7 @@ export const Navbar = () => {
       >
         {/* Orange div on the left */}
         <div className="bg-[#FE6D38] h-[32px] px-2 flex items-center justify-center rounded-[4px]">
-          <User className="text-black w-4 h-4" />
+          <User className="text-black w-4 h-4 font-bold" />
         </div>
 
         {/* Text or whatever else inside navbar */}
