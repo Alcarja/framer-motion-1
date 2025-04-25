@@ -32,10 +32,19 @@ export const HomeView = () => {
   const textY = useTransform(scrollY, [1250, 1600], [50, 0]);
 
   const icon1X = useTransform(scrollY, [1250, 1600], [0, -300]); // move left
-  const icon1Y = useTransform(scrollY, [1250, 1600], [0, -200]); // move up
+  const icon1Y = useTransform(scrollY, [1250, 1600], [0, -300]); // move up
 
   const icon2X = useTransform(scrollY, [1250, 1600], [0, -10]); // move left
-  const icon2Y = useTransform(scrollY, [1250, 1600], [0, 450]); // move down
+  const icon2Y = useTransform(scrollY, [1250, 1600], [0, 550]); // move down
+
+  const icon3X = useTransform(scrollY, [1250, 1600], [0, 90]); // move left
+  const icon3Y = useTransform(scrollY, [1250, 1600], [0, -550]); // move down
+
+  const icon4X = useTransform(scrollY, [1250, 1600], [0, 90]); // move left
+  const icon4Y = useTransform(scrollY, [1250, 1600], [0, 630]); // move down
+
+  const icon5X = useTransform(scrollY, [1250, 1600], [0, 590]); // move left
+  const icon5Y = useTransform(scrollY, [1250, 1600], [0, 10]); // move down
 
   return (
     <motion.div style={{ backgroundColor }}>
@@ -88,27 +97,42 @@ export const HomeView = () => {
             >
               <MoveIcon className="w-50 h-50 text-black" />
             </motion.div>
-            <div className="rounded-full bg-[#04A552] w-60 h-60 flex items-center justify-center border border-black">
+
+            {/* Icon 3 */}
+            <motion.div
+              className="rounded-full bg-[#04A552] w-60 h-60 flex items-center justify-center border border-black"
+              style={{ x: icon3X, y: icon3Y }}
+            >
               <FilmIcon className="w-50 h-50 text-black" />
-            </div>
-            <div className="rounded-full bg-[#FD6D38] w-60 h-60 flex items-center justify-center border border-black">
+            </motion.div>
+
+            {/* Icon 4 */}
+            <motion.div
+              className="rounded-full bg-[#FD6D38] w-60 h-60 flex items-center justify-center border border-black"
+              style={{ x: icon4X, y: icon4Y }}
+            >
               <BadgeIcon className="w-50 h-50 text-black" />
-            </div>
-            <div className="rounded-full bg-[#80fd38] w-60 h-60 flex items-center justify-center border border-black">
+            </motion.div>
+
+            {/* Icon 5 */}
+            <motion.div
+              className="rounded-full bg-[#80fd38] w-60 h-60 flex items-center justify-center border border-black"
+              style={{ x: icon5X, y: icon5Y }}
+            >
               <FileIcon className="w-50 h-50 text-black" />
-            </div>
+            </motion.div>
           </motion.div>
 
           <motion.div
             style={{ opacity: textOpacity, y: textY }}
             className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-center max-w-md z-10"
           >
-            <h2 className="text-4xl font-bold text-black">
-              Empower the Future of Data
-            </h2>
             <p className="text-lg mt-2 text-gray-700">
               Youre not just the product. Youre the owner.
             </p>
+            <h2 className="text-[90px] leading-[1] font-bold text-black">
+              Empower the Future of Data
+            </h2>
           </motion.div>
         </div>
       </div>
