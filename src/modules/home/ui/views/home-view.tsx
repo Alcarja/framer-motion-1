@@ -9,6 +9,9 @@ import {
 } from "lucide-react";
 import { motion, useScroll, useTransform } from "framer-motion";
 import { useEffect, useRef } from "react";
+import { Arrow1 } from "@/components/svgs/Arrow1";
+import { Arrow2 } from "@/components/svgs/Arrow2";
+import { Arrow3 } from "@/components/svgs/Arrow3";
 
 export const HomeView = () => {
   const textRef = useRef(null);
@@ -131,7 +134,7 @@ export const HomeView = () => {
         </div>
 
         {/* Sticky icons scaling as a group */}
-        <div className="relative h-[1200vh] w-full">
+        <div className="relative h-[700vh] w-full">
           <div
             ref={iconContainerRef}
             className="sticky top-1/2 -translate-y-1/2 flex items-center justify-center h-0"
@@ -204,29 +207,11 @@ export const HomeView = () => {
           x: arrow1X,
           scaleX: arrow1ScaleX,
           opacity: arrow1Opacity,
-          top: "0vh",
+          top: "-0.1vh",
         }}
         className="fixed left-0 origin-left w-[200vw] h-[33.33vh] z-50 pointer-events-none"
       >
-        <svg
-          viewBox="0 0 985 151"
-          preserveAspectRatio="none"
-          className="w-full h-full"
-          xmlns="http://www.w3.org/2000/svg"
-        >
-          <path
-            d="M903.164 1H415.157V150H903.164C903.164 150 983.5 100.025 983.5 75.5C983.5 50.9752 903.164 1 903.164 1Z"
-            fill="#7A78FF"
-            stroke="black"
-            strokeWidth="2"
-          />
-          <path
-            d="M489.007 1H1V150H489.007C489.007 150 569.343 100.025 569.343 75.5C569.343 50.9752 489.007 1 489.007 1Z"
-            fill="#FFC313"
-            stroke="black"
-            strokeWidth="2"
-          />
-        </svg>
+        <Arrow1 />
       </motion.div>
 
       <motion.div
@@ -234,29 +219,11 @@ export const HomeView = () => {
           x: arrow2X,
           scaleX: arrow2ScaleX,
           opacity: arrow2Opacity,
-          top: "33.33vh",
+          top: "33vh",
         }}
-        className="fixed left-0 origin-left w-[180vw] h-[33.33vh] z-50 pointer-events-none"
+        className="fixed left-0 origin-left w-[180vw] h-[34vh] z-50 pointer-events-none"
       >
-        <svg
-          viewBox="0 0 1185 151"
-          preserveAspectRatio="none"
-          className="w-full h-full"
-          xmlns="http://www.w3.org/2000/svg"
-        >
-          <path
-            d="M1069.08 1H371V150H1069.08C1069.08 150 1184 100.025 1184 75.5C1184 50.9752 1069.08 1 1069.08 1Z"
-            fill="#ADFF26"
-            stroke="black"
-            strokeWidth="2"
-          />
-          <path
-            d="M369.36 1H1V150H369.36C369.36 150 430 100.025 430 75.5C430 50.9752 369.36 1 369.36 1Z"
-            fill="#FD6D38"
-            stroke="black"
-            strokeWidth="2"
-          />
-        </svg>
+        <Arrow2 />
       </motion.div>
 
       <motion.div
@@ -268,31 +235,23 @@ export const HomeView = () => {
         }}
         className="fixed left-0 origin-left w-[160vw] h-[33.33vh] z-50 pointer-events-none"
       >
-        <svg
-          viewBox="0 0 1732 151"
-          preserveAspectRatio="none"
-          className="w-full h-full"
-          xmlns="http://www.w3.org/2000/svg"
-        >
-          <path
-            d="M1616.08 1H918V150H1616.08C1616.08 150 1731 100.025 1731 75.5C1731 50.9752 1616.08 1 1616.08 1Z"
-            fill="#FFC313"
-            stroke="black"
-            strokeWidth="2"
-          />
-          <path
-            d="M1234.92 1H548V150H1234.92C1234.92 150 1348 100.025 1348 75.5C1348 50.9752 1234.92 1 1234.92 1Z"
-            fill="#B9DDFD"
-            stroke="black"
-            strokeWidth="2"
-          />
-          <path
-            d="M687.918 1H1V150H687.918C687.918 150 801 100.025 801 75.5C801 50.9752 687.918 1 687.918 1Z"
-            fill="#FD6D38"
-            stroke="black"
-            strokeWidth="2"
-          />
-        </svg>
+        <Arrow3 />
+      </motion.div>
+
+      {/* Start to see background 8070 */}
+      {/* Arrows dissapear 10950 */}
+
+      {/* Third Section: Black background */}
+      <motion.div className="w-full min-h-[800vh] bg-black flex flex-col items-center justify-center text-white relative z-40 border border-white">
+        <div className="max-w-4xl text-center p-8">
+          <h2 className="text-5xl font-bold mb-6">Welcome to the Future</h2>
+          <p className="text-lg text-gray-300">
+            Your journey has just begun. Harness your data. Empower your world.
+          </p>
+          <button className="mt-8 px-6 py-3 bg-white text-black rounded-full border border-white hover:bg-gray-300">
+            Get Started
+          </button>
+        </div>
       </motion.div>
     </>
   );
