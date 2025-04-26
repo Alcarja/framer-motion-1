@@ -107,6 +107,32 @@ export const HomeView = () => {
     [0, 1, 1, 0]
   );
 
+  /* Section 3 text */
+
+  //By word
+  const OpacityForWord = (index: number, baseScroll: number) => {
+    return useTransform(
+      scrollY,
+      [
+        baseScroll + index * 200, // invisible ➔ each word needs bigger spacing
+        baseScroll + index * 200 + 150, // faded
+        baseScroll + index * 200 + 300, // fully solid
+      ],
+      [0, 0.4, 1]
+    );
+  };
+
+  const MaskForWord = (index: number, baseScroll: number) => {
+    return useTransform(
+      scrollY,
+      [baseScroll + index * 200, baseScroll + index * 200 + 300],
+      [
+        "linear-gradient(to right, transparent 0%, transparent 100%)",
+        "linear-gradient(to right, white 0%, white 100%)",
+      ]
+    );
+  };
+
   return (
     <>
       <motion.div style={{ backgroundColor }}>
@@ -120,7 +146,7 @@ export const HomeView = () => {
             className="flex-1 flex flex-col items-center justify-center px-4 gap-y-6"
           >
             <div className="w-[700px] flex flex-col items-center justify-center text-center -translate-y-20">
-              <h1 className="text-[120px] font-bold leading-[0.8]">
+              <h1 className="text-[120px] leading-[0.8]">
                 Your data runs the world
               </h1>
               <div className="mt-4">
@@ -238,19 +264,65 @@ export const HomeView = () => {
         <Arrow3 />
       </motion.div>
 
-      {/* Start to see background 8070 */}
-      {/* Arrows dissapear 10950 */}
+      <div className="w-full h-[300vh] bg-[#141414] border border-white" />
 
-      {/* Third Section: Black background */}
-      <motion.div className="w-full min-h-[800vh] bg-black flex flex-col items-center justify-center text-white relative z-40 border border-white">
-        <div className="max-w-4xl text-center p-8">
-          <h2 className="text-5xl font-bold mb-6">Welcome to the Future</h2>
-          <p className="text-lg text-gray-300">
-            Your journey has just begun. Harness your data. Empower your world.
-          </p>
-          <button className="mt-8 px-6 py-3 bg-white text-black rounded-full border border-white hover:bg-gray-300">
-            Get Started
-          </button>
+      {/* Start to see background 8070 */}
+      {/* Black section ends at 10953 */}
+
+      {/* Black Background Section */}
+      <motion.div className="w-full min-h-[1300vh] bg-[#141414] flex items-center justify-center text-white relative z-40">
+        <div className="flex flex-col items-center justify-center fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-center z-50 gap-7">
+          {/* Paragraph 1 */}
+          <div className="inline-block text-center">
+            {"Lorem ipsum dolor sit amet consectetur adipisicing elit. Perspiciatis corporis cumque veritatis molestiae tenetur modi alias fuga vitae dignissimos quaerat perferendis distinctio eius voluptate enim quisquam"
+              .split(" ")
+              .map((word, index) => (
+                <motion.span
+                  key={index}
+                  style={{
+                    opacity: OpacityForWord(index, 10959),
+                    WebkitMaskImage: MaskForWord(index, 20700),
+                    maskImage: MaskForWord(index, 20700),
+                    WebkitMaskSize: "200% 100%",
+                    maskSize: "200% 100%",
+                    WebkitMaskRepeat: "no-repeat",
+                    maskRepeat: "no-repeat",
+                    display: "inline-block",
+                  }}
+                  className={`text-4xl font-bold leading-[1] mr-2 ${
+                    index === 0 // 👈 first word special styling
+                      ? "bg-[#7A78FF] text-black px-1.5 py-1.5 rounded-md"
+                      : "text-white"
+                  }`}
+                >
+                  <p>{word}</p>
+                </motion.span>
+              ))}
+          </div>
+
+          {/* Paragraph 2 */}
+          <div className="inline-block text-center">
+            {"Lorem ipsum dolor sit amet, consectetur adipisicing elit. Modi aspernatur voluptatibus, nisi debitis deserunt et veritatis consectetur minima aliquam porro itaque repellat dicta, ipsa est omnis quod, "
+              .split(" ") // <--- split by SPACE, now you get words!
+              .map((word, index) => (
+                <motion.span
+                  key={index}
+                  style={{
+                    opacity: OpacityForWord(index, 16803), // ✨ NEW function
+                    WebkitMaskImage: MaskForWord(index, 20700), // ✨ NEW function
+                    maskImage: MaskForWord(index, 20700),
+                    WebkitMaskSize: "200% 100%",
+                    maskSize: "200% 100%",
+                    WebkitMaskRepeat: "no-repeat",
+                    maskRepeat: "no-repeat",
+                    display: "inline-block",
+                  }}
+                  className="text-4xl font-bold leading-[1] mr-2 " // 👈 add margin between words!
+                >
+                  {word}
+                </motion.span>
+              ))}
+          </div>
         </div>
       </motion.div>
     </>
