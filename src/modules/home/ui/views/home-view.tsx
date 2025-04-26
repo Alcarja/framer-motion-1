@@ -160,7 +160,7 @@ export const HomeView = () => {
         </div>
 
         {/* Sticky icons scaling as a group */}
-        <div className="relative h-[700vh] w-full">
+        <div className="relative h-[650vh] w-full">
           <div
             ref={iconContainerRef}
             className="sticky top-1/2 -translate-y-1/2 flex items-center justify-center h-0"
