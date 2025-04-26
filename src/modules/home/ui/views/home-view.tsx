@@ -264,10 +264,7 @@ export const HomeView = () => {
         <Arrow3 />
       </motion.div>
 
-      <div className="w-full h-[300vh] bg-[#141414] border border-white" />
-
-      {/* Start to see background 8070 */}
-      {/* Black section ends at 10953 */}
+      <div className="w-full h-[300vh] bg-[#141414]" />
 
       {/* Black Background Section */}
       <motion.div className="w-full min-h-[1300vh] bg-[#141414] flex items-center justify-center text-white relative z-40">
