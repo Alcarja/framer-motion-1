@@ -7,11 +7,59 @@ import {
   GhostIcon,
   MoveIcon,
 } from "lucide-react";
-import { motion, useScroll, useTransform } from "framer-motion";
+import { motion, useScroll, useTransform, MotionValue } from "framer-motion";
 import { useEffect, useRef, useState } from "react";
 import { Arrow1 } from "@/components/svgs/Arrow1";
 import { Arrow2 } from "@/components/svgs/Arrow2";
 import { Arrow3 } from "@/components/svgs/Arrow3";
+
+const OpacityForWord = (
+  scrollY: MotionValue<number>,
+  index: number,
+  baseScroll: number
+) => {
+  return useTransform(
+    scrollY,
+    [
+      baseScroll + index * 200,
+      baseScroll + index * 200 + 150,
+      baseScroll + index * 200 + 300,
+    ],
+    [0, 0.4, 1]
+  );
+};
+
+const MaskForWord = (
+  scrollY: MotionValue<number>,
+  index: number,
+  baseScroll: number
+) => {
+  return useTransform(
+    scrollY,
+    [baseScroll + index * 200, baseScroll + index * 200 + 300],
+    [
+      "linear-gradient(to right, transparent 0%, transparent 100%)",
+      "linear-gradient(to right, white 0%, white 100%)",
+    ]
+  );
+};
+
+const CoverColorForWord = (
+  scrollY: MotionValue<number>,
+  index: number,
+  baseScroll: number
+) => {
+  return useTransform(
+    scrollY,
+    [
+      baseScroll + index * 200 - 500,
+      baseScroll + index * 200 - 300,
+      baseScroll + index * 200 - 150,
+      baseScroll + index * 200,
+    ],
+    ["#4a4a4a", "#464646", "#141414", "#00000000"]
+  );
+};
 
 export const HomeView = () => {
   const textRef = useRef(null);
@@ -22,12 +70,15 @@ export const HomeView = () => {
     offset: ["start start", "end start"],
   });
 
-  const [currentWordIndex, setCurrentWordIndex] = useState(0);
+  const [currentWordIndex1, setCurrentWordIndex1] = useState(0);
+  const [currentWordIndex2, setCurrentWordIndex2] = useState(0);
 
   useEffect(() => {
     const unsubscribe = scrollY.on("change", (latest) => {
-      const index = Math.floor((latest - 10959) / 200);
-      setCurrentWordIndex(index);
+      const index1 = Math.floor((latest - 10959) / 200);
+      const index2 = Math.floor((latest - 16959) / 200);
+      setCurrentWordIndex1(index1);
+      setCurrentWordIndex2(index2);
     });
     return () => unsubscribe();
   }, [scrollY]);
@@ -89,47 +140,36 @@ export const HomeView = () => {
     [0, 1, 1, 0]
   );
 
-  // --- Words Animation Setup ---
-
-  const words =
+  // --- Words Section ---
+  const paragraph1 =
+    "Lorem ipsum dolor sit amet consectetur adipisicing elit. Perspiciatis corporis cumque veritatis molestiae tenetur modi alias fuga vitae dignissimos quaerat perferendis distinctio eius voluptate enim quisquam".split(
+      " "
+    );
+  const paragraph2 =
     "Lorem ipsum dolor sit amet consectetur adipisicing elit. Perspiciatis corporis cumque veritatis molestiae tenetur modi alias fuga vitae dignissimos quaerat perferendis distinctio eius voluptate enim quisquam".split(
       " "
     );
 
-  const wordTransforms = words.map((_, index) => ({
-    opacity: useTransform(
-      scrollY,
-      [
-        10959 + index * 200,
-        10959 + index * 200 + 150,
-        10959 + index * 200 + 300,
-      ],
-      [0, 0.4, 1]
-    ),
-    mask: useTransform(
-      scrollY,
-      [20700 + index * 200, 20700 + index * 200 + 300],
-      [
-        "linear-gradient(to right, transparent 0%, transparent 100%)",
-        "linear-gradient(to right, white 0%, white 100%)",
-      ]
-    ),
-    coverColor: useTransform(
-      scrollY,
-      [
-        10959 + index * 200 - 500,
-        10959 + index * 200 - 300,
-        10959 + index * 200 - 150,
-        10959 + index * 200,
-      ],
-      [
-        "#4a4a4a", // dark gray
-        "#464646", // deeper dark
-        "#141414", // almost black
-        "#00000000", // fully transparent
-      ]
-    ),
-  }));
+  // Prepare transforms for all words
+  const wordOpacitie1 = paragraph1.map((_, index) =>
+    OpacityForWord(scrollY, index, 10959)
+  );
+  const wordMask1 = paragraph1.map((_, index) =>
+    MaskForWord(scrollY, index, 20700)
+  );
+  const wordCoverColor1 = paragraph1.map((_, index) =>
+    CoverColorForWord(scrollY, index, 10959)
+  );
+
+  const wordOpacitie2 = paragraph2.map((_, index) =>
+    OpacityForWord(scrollY, index, 16959)
+  );
+  const wordMask2 = paragraph2.map((_, index) =>
+    MaskForWord(scrollY, index, 16959)
+  );
+  const wordCoverColor2 = paragraph2.map((_, index) =>
+    CoverColorForWord(scrollY, index, 16959)
+  );
 
   return (
     <>
@@ -253,17 +293,19 @@ export const HomeView = () => {
       </motion.div>
 
       {/* Big Section with Words Animation */}
-      <motion.div className="w-full min-h-[1300vh] bg-[#141414] flex items-center justify-center text-white relative z-40">
+      <motion.div className="w-full min-h-[1800vh] bg-[#141414] flex items-center justify-center text-white relative z-40">
         <div className="flex flex-col items-center justify-center fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-center z-50 gap-7">
-          <div className="inline-block text-center">
+          <div className="inline-block text-left">
+            {/* Paragraph 1 */}
             <div className="text-left">
-              {words.map((word, index) => (
-                <div key={index} className="relative inline-block">
-                  {index > currentWordIndex &&
-                    index <= currentWordIndex + 4 && (
+              {paragraph1.map((word, index) => (
+                <div key={`p1-${index}`} className="relative inline-block">
+                  {currentWordIndex1 > 0 &&
+                    index > currentWordIndex1 &&
+                    index <= currentWordIndex1 + 3 && (
                       <motion.div
                         style={{
-                          backgroundColor: wordTransforms[index].coverColor,
+                          backgroundColor: wordCoverColor1[index],
                           scale: 1,
                         }}
                         className="absolute inset-0 rounded-full pointer-events-none"
@@ -271,9 +313,9 @@ export const HomeView = () => {
                     )}
                   <motion.span
                     style={{
-                      opacity: wordTransforms[index].opacity,
-                      WebkitMaskImage: wordTransforms[index].mask,
-                      maskImage: wordTransforms[index].mask,
+                      opacity: wordOpacitie1[index],
+                      WebkitMaskImage: wordMask1[index],
+                      maskImage: wordMask1[index],
                       WebkitMaskSize: "200% 100%",
                       maskSize: "200% 100%",
                       WebkitMaskRepeat: "no-repeat",
@@ -283,6 +325,44 @@ export const HomeView = () => {
                     className={`text-4xl mr-2 leading-[1] font-dm font-[1000] tracking-tighter ${
                       index === 0
                         ? "bg-[#7A78FF] text-black px-1.5 py-1.5 rounded-md"
+                        : "text-[#FCF9F0]"
+                    }`}
+                  >
+                    {word}
+                  </motion.span>
+                </div>
+              ))}
+            </div>
+
+            {/* Paragraph 2 */}
+            <div className="text-left mt-16">
+              {paragraph2.map((word, index) => (
+                <div key={`p2-${index}`} className="relative inline-block">
+                  {currentWordIndex2 > 0 &&
+                    index > currentWordIndex2 &&
+                    index <= currentWordIndex2 + 3 && (
+                      <motion.div
+                        style={{
+                          backgroundColor: wordCoverColor2[index],
+                          scale: 1,
+                        }}
+                        className="absolute inset-0 rounded-full pointer-events-none"
+                      />
+                    )}
+                  <motion.span
+                    style={{
+                      opacity: wordOpacitie2[index],
+                      WebkitMaskImage: wordMask2[index],
+                      maskImage: wordMask2[index],
+                      WebkitMaskSize: "200% 100%",
+                      maskSize: "200% 100%",
+                      WebkitMaskRepeat: "no-repeat",
+                      maskRepeat: "no-repeat",
+                      display: "inline-block",
+                    }}
+                    className={`text-4xl mr-2 leading-[1] font-dm font-[1000] tracking-tighter ${
+                      index === 12
+                        ? "bg-[#FD6D38] text-black px-1.5 py-1.5 rounded-md"
                         : "text-[#FCF9F0]"
                     }`}
                   >
