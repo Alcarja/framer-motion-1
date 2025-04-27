@@ -146,7 +146,7 @@ export const HomeView = () => {
             className="flex-1 flex flex-col items-center justify-center px-4 gap-y-6"
           >
             <div className="w-[700px] flex flex-col items-center justify-center text-center -translate-y-20">
-              <h1 className="text-[120px] leading-[0.8]">
+              <h1 className="text-[120px] leading-[0.75] font-dm font-[1000] tracking-tighter">
                 Your data runs the world
               </h1>
               <div className="mt-4">
@@ -215,10 +215,10 @@ export const HomeView = () => {
               style={{ opacity: textOpacity, y: textY }}
               className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-center max-w-md z-10"
             >
-              <p className="text-lg mt-2 text-gray-700">
+              <p className="text-lg mt-2 text-gray-700 leading-[0.75] font-dm font-[1000] tracking-tighter">
                 Youre not just the product. Youre the owner.
               </p>
-              <h2 className="text-[90px] leading-[1] font-bold text-black">
+              <h2 className="text-[90px] text-black leading-[1] font-dm font-[1000] tracking-tighter">
                 Empower the Future of Data
               </h2>
             </motion.div>
@@ -271,54 +271,58 @@ export const HomeView = () => {
         <div className="flex flex-col items-center justify-center fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-center z-50 gap-7">
           {/* Paragraph 1 */}
           <div className="inline-block text-center">
-            {"Lorem ipsum dolor sit amet consectetur adipisicing elit. Perspiciatis corporis cumque veritatis molestiae tenetur modi alias fuga vitae dignissimos quaerat perferendis distinctio eius voluptate enim quisquam"
-              .split(" ")
-              .map((word, index) => (
-                <motion.span
-                  key={index}
-                  style={{
-                    opacity: OpacityForWord(index, 10959),
-                    WebkitMaskImage: MaskForWord(index, 20700),
-                    maskImage: MaskForWord(index, 20700),
-                    WebkitMaskSize: "200% 100%",
-                    maskSize: "200% 100%",
-                    WebkitMaskRepeat: "no-repeat",
-                    maskRepeat: "no-repeat",
-                    display: "inline-block",
-                  }}
-                  className={`text-4xl font-bold leading-[1] mr-2 ${
-                    index === 0 // 👈 first word special styling
-                      ? "bg-[#7A78FF] text-black px-1.5 py-1.5 rounded-md"
-                      : "text-white"
-                  }`}
-                >
-                  <p>{word}</p>
-                </motion.span>
-              ))}
+            <div className="text-left">
+              {"Lorem ipsum dolor sit amet consectetur adipisicing elit. Perspiciatis corporis cumque veritatis molestiae tenetur modi alias fuga vitae dignissimos quaerat perferendis distinctio eius voluptate enim quisquam"
+                .split(" ")
+                .map((word, index) => (
+                  <motion.span
+                    key={index}
+                    style={{
+                      opacity: OpacityForWord(index, 10959),
+                      WebkitMaskImage: MaskForWord(index, 20700),
+                      maskImage: MaskForWord(index, 20700),
+                      WebkitMaskSize: "200% 100%",
+                      maskSize: "200% 100%",
+                      WebkitMaskRepeat: "no-repeat",
+                      maskRepeat: "no-repeat",
+                      display: "inline-block",
+                    }}
+                    className={`text-4xl mr-2 leading-[1] font-dm font-[1000] tracking-tighter ${
+                      index === 0
+                        ? "bg-[#7A78FF] text-black px-1.5 py-1.5 rounded-md"
+                        : "text-[#FCF9F0]"
+                    }`}
+                  >
+                    {word}
+                  </motion.span>
+                ))}
+            </div>
           </div>
 
           {/* Paragraph 2 */}
           <div className="inline-block text-center">
-            {"Lorem ipsum dolor sit amet, consectetur adipisicing elit. Modi aspernatur voluptatibus, nisi debitis deserunt et veritatis consectetur minima aliquam porro itaque repellat dicta, ipsa est omnis quod, "
-              .split(" ") // <--- split by SPACE, now you get words!
-              .map((word, index) => (
-                <motion.span
-                  key={index}
-                  style={{
-                    opacity: OpacityForWord(index, 16803), // ✨ NEW function
-                    WebkitMaskImage: MaskForWord(index, 20700), // ✨ NEW function
-                    maskImage: MaskForWord(index, 20700),
-                    WebkitMaskSize: "200% 100%",
-                    maskSize: "200% 100%",
-                    WebkitMaskRepeat: "no-repeat",
-                    maskRepeat: "no-repeat",
-                    display: "inline-block",
-                  }}
-                  className="text-4xl font-bold leading-[1] mr-2 " // 👈 add margin between words!
-                >
-                  {word}
-                </motion.span>
-              ))}
+            <div className="text-left">
+              {"Lorem ipsum dolor sit amet consectetur adipisicing elit. Perspiciatis corporis cumque veritatis molestiae tenetur modi alias fuga vitae dignissimos quaerat perferendis distinctio eius voluptate enim quisquam"
+                .split(" ")
+                .map((word, index) => (
+                  <motion.span
+                    key={index}
+                    style={{
+                      opacity: OpacityForWord(index, 16500),
+                      WebkitMaskImage: MaskForWord(index, 20700),
+                      maskImage: MaskForWord(index, 20700),
+                      WebkitMaskSize: "200% 100%",
+                      maskSize: "200% 100%",
+                      WebkitMaskRepeat: "no-repeat",
+                      maskRepeat: "no-repeat",
+                      display: "inline-block",
+                    }}
+                    className={`text-4xl mr-2 leading-[1] font-dm font-[1000] tracking-tighter text-[#FCF9F0]`}
+                  >
+                    {word}
+                  </motion.span>
+                ))}
+            </div>
           </div>
         </div>
       </motion.div>
