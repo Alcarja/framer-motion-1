@@ -8,7 +8,7 @@ import {
   MoveIcon,
 } from "lucide-react";
 import { motion, useScroll, useTransform } from "framer-motion";
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Arrow1 } from "@/components/svgs/Arrow1";
 import { Arrow2 } from "@/components/svgs/Arrow2";
 import { Arrow3 } from "@/components/svgs/Arrow3";
@@ -22,121 +22,120 @@ export const HomeView = () => {
     offset: ["start start", "end start"],
   });
 
-  /* Title */
-  /* From 400px to 1200px */
+  const [currentWordIndex, setCurrentWordIndex] = useState(0);
+
+  useEffect(() => {
+    const unsubscribe = scrollY.on("change", (latest) => {
+      const index = Math.floor((latest - 10959) / 200);
+      setCurrentWordIndex(index);
+    });
+    return () => unsubscribe();
+  }, [scrollY]);
+
+  // --- Title Section ---
   const y = useTransform(scrollYProgress, [0, 0.3], [0, -100]);
   const opacity = useTransform(scrollYProgress, [0, 0.2], [1, 0]);
-
   const scale = useTransform(scrollY, [400, 1200], [1, 0.4]);
-
   const backgroundColor = useTransform(scrollY, (y) =>
     y >= 1200 ? "#FEF9F0" : "#000000"
   );
 
-  /* Track Y in the whole page to see where we are */
-
-  useEffect(() => {
-    const unsubscribe = scrollY.on("change", (latest) => {
-      console.log("Current scrollY:", latest);
-    });
-
-    return () => unsubscribe(); // Cleanup
-  }, [scrollY]);
-
-  /* Icons */
-  /* From 1250 to 1600px */
-
+  // --- Icons Section ---
   const textOpacity = useTransform(scrollY, [1250, 1600], [0, 1]);
   const textY = useTransform(scrollY, [1250, 1600], [50, 0]);
+  const icon1X = useTransform(scrollY, [1250, 1600], [0, -300]);
+  const icon1Y = useTransform(scrollY, [1250, 1600], [0, -300]);
+  const icon2X = useTransform(scrollY, [1250, 1600], [0, -10]);
+  const icon2Y = useTransform(scrollY, [1250, 1600], [0, 550]);
+  const icon3X = useTransform(scrollY, [1250, 1600], [0, 90]);
+  const icon3Y = useTransform(scrollY, [1250, 1600], [0, -550]);
+  const icon4X = useTransform(scrollY, [1250, 1600], [0, 90]);
+  const icon4Y = useTransform(scrollY, [1250, 1600], [0, 630]);
+  const icon5X = useTransform(scrollY, [1250, 1600], [0, 590]);
+  const icon5Y = useTransform(scrollY, [1250, 1600], [0, 10]);
 
-  const icon1X = useTransform(scrollY, [1250, 1600], [0, -300]); // move left
-  const icon1Y = useTransform(scrollY, [1250, 1600], [0, -300]); // move up
-
-  const icon2X = useTransform(scrollY, [1250, 1600], [0, -10]); // move left
-  const icon2Y = useTransform(scrollY, [1250, 1600], [0, 550]); // move down
-
-  const icon3X = useTransform(scrollY, [1250, 1600], [0, 90]); // move left
-  const icon3Y = useTransform(scrollY, [1250, 1600], [0, -550]); // move down
-
-  const icon4X = useTransform(scrollY, [1250, 1600], [0, 90]); // move left
-  const icon4Y = useTransform(scrollY, [1250, 1600], [0, 630]); // move down
-
-  const icon5X = useTransform(scrollY, [1250, 1600], [0, 590]); // move left
-  const icon5Y = useTransform(scrollY, [1250, 1600], [0, 10]); // move down
-
-  /* Arrows */
-  /* From 2300 to 6000px */
-
+  // --- Arrows Section ---
   const arrow1X = useTransform(
     scrollY,
     [2000, 2100, 8000, 11900],
-    ["-200vw", "-200vw", "0vw", "130vw"] //The first two values have to match the width of the arrow
+    ["-200vw", "-200vw", "0vw", "130vw"]
   );
-
   const arrow2X = useTransform(
     scrollY,
     [2900, 3000, 8900, 11900],
     ["-180vw", "-180vw", "0vw", "160vw"]
   );
-
   const arrow3X = useTransform(
     scrollY,
     [2700, 2800, 8700, 11900],
     ["-160vw", "-160vw", "0vw", "160vw"]
   );
-
   const arrow1ScaleX = useTransform(scrollY, [0, 12000], [1, 1]);
   const arrow2ScaleX = useTransform(scrollY, [0, 12000], [1, 1]);
   const arrow3ScaleX = useTransform(scrollY, [0, 12000], [1, 1]);
-
   const arrow1Opacity = useTransform(
     scrollY,
     [2000, 2100, 10900, 12000],
     [0, 1, 1, 0]
   );
-
   const arrow2Opacity = useTransform(
     scrollY,
     [2900, 3000, 10900, 12000],
     [0, 1, 1, 0]
   );
-
   const arrow3Opacity = useTransform(
     scrollY,
     [2700, 2800, 10900, 12000],
     [0, 1, 1, 0]
   );
 
-  /* Section 3 text */
+  // --- Words Animation Setup ---
 
-  //By word
-  const OpacityForWord = (index: number, baseScroll: number) => {
-    return useTransform(
+  const words =
+    "Lorem ipsum dolor sit amet consectetur adipisicing elit. Perspiciatis corporis cumque veritatis molestiae tenetur modi alias fuga vitae dignissimos quaerat perferendis distinctio eius voluptate enim quisquam".split(
+      " "
+    );
+
+  const wordTransforms = words.map((_, index) => ({
+    opacity: useTransform(
       scrollY,
       [
-        baseScroll + index * 200, // invisible ➔ each word needs bigger spacing
-        baseScroll + index * 200 + 150, // faded
-        baseScroll + index * 200 + 300, // fully solid
+        10959 + index * 200,
+        10959 + index * 200 + 150,
+        10959 + index * 200 + 300,
       ],
       [0, 0.4, 1]
-    );
-  };
-
-  const MaskForWord = (index: number, baseScroll: number) => {
-    return useTransform(
+    ),
+    mask: useTransform(
       scrollY,
-      [baseScroll + index * 200, baseScroll + index * 200 + 300],
+      [20700 + index * 200, 20700 + index * 200 + 300],
       [
         "linear-gradient(to right, transparent 0%, transparent 100%)",
         "linear-gradient(to right, white 0%, white 100%)",
       ]
-    );
-  };
+    ),
+    coverColor: useTransform(
+      scrollY,
+      [
+        10959 + index * 200 - 500,
+        10959 + index * 200 - 300,
+        10959 + index * 200 - 150,
+        10959 + index * 200,
+      ],
+      [
+        "#4a4a4a", // dark gray
+        "#464646", // deeper dark
+        "#141414", // almost black
+        "#00000000", // fully transparent
+      ]
+    ),
+  }));
 
   return (
     <>
+      {/* Background color changing */}
       <motion.div style={{ backgroundColor }}>
-        {/* Fullscreen Intro */}
+        {/* Top section (Title and Button) */}
         <div
           ref={textRef}
           className="w-full h-[75vh] flex flex-col overflow-hidden"
@@ -159,7 +158,7 @@ export const HomeView = () => {
           </motion.div>
         </div>
 
-        {/* Sticky icons scaling as a group */}
+        {/* Icons moving */}
         <div className="relative h-[600vh] w-full">
           <div
             ref={iconContainerRef}
@@ -170,39 +169,30 @@ export const HomeView = () => {
               transition={{ duration: 0.3, ease: "easeOut" }}
               className="flex flex-row items-center justify-center gap-1"
             >
-              {/* Icon 1 */}
               <motion.div
                 className="rounded-full bg-[#FFC313] w-60 h-60 flex items-center justify-center border border-black"
                 style={{ x: icon1X, y: icon1Y }}
               >
                 <GhostIcon className="w-50 h-50 text-black" />
               </motion.div>
-
-              {/* Icon 2 */}
               <motion.div
                 className="rounded-full bg-[#7A78FF] w-60 h-60 flex items-center justify-center border border-black"
                 style={{ x: icon2X, y: icon2Y }}
               >
                 <MoveIcon className="w-50 h-50 text-black" />
               </motion.div>
-
-              {/* Icon 3 */}
               <motion.div
                 className="rounded-full bg-[#04A552] w-60 h-60 flex items-center justify-center border border-black"
                 style={{ x: icon3X, y: icon3Y }}
               >
                 <FilmIcon className="w-50 h-50 text-black" />
               </motion.div>
-
-              {/* Icon 4 */}
               <motion.div
                 className="rounded-full bg-[#FD6D38] w-60 h-60 flex items-center justify-center border border-black"
                 style={{ x: icon4X, y: icon4Y }}
               >
                 <BadgeIcon className="w-50 h-50 text-black" />
               </motion.div>
-
-              {/* Icon 5 */}
               <motion.div
                 className="rounded-full bg-[#80fd38] w-60 h-60 flex items-center justify-center border border-black"
                 style={{ x: icon5X, y: icon5Y }}
@@ -211,12 +201,13 @@ export const HomeView = () => {
               </motion.div>
             </motion.div>
 
+            {/* Sticky text above icons */}
             <motion.div
               style={{ opacity: textOpacity, y: textY }}
               className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-center max-w-md z-10"
             >
               <p className="text-lg mt-2 text-gray-700 leading-[0.75] font-dm font-[1000] tracking-tighter">
-                Youre not just the product. Youre the owner.
+                You’re not just the product. You’re the owner.
               </p>
               <h2 className="text-[90px] text-black leading-[1] font-dm font-[1000] tracking-tighter">
                 Empower the Future of Data
@@ -226,8 +217,7 @@ export const HomeView = () => {
         </div>
       </motion.div>
 
-      {/* Arrows */}
-
+      {/* Animated Arrows */}
       <motion.div
         style={{
           x: arrow1X,
@@ -239,7 +229,6 @@ export const HomeView = () => {
       >
         <Arrow1 />
       </motion.div>
-
       <motion.div
         style={{
           x: arrow2X,
@@ -251,7 +240,6 @@ export const HomeView = () => {
       >
         <Arrow2 />
       </motion.div>
-
       <motion.div
         style={{
           x: arrow3X,
@@ -264,23 +252,28 @@ export const HomeView = () => {
         <Arrow3 />
       </motion.div>
 
-      <div className="w-full h-[300vh] bg-[#141414]" />
-
-      {/* Black Background Section */}
+      {/* Big Section with Words Animation */}
       <motion.div className="w-full min-h-[1300vh] bg-[#141414] flex items-center justify-center text-white relative z-40">
         <div className="flex flex-col items-center justify-center fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-center z-50 gap-7">
-          {/* Paragraph 1 */}
           <div className="inline-block text-center">
             <div className="text-left">
-              {"Lorem ipsum dolor sit amet consectetur adipisicing elit. Perspiciatis corporis cumque veritatis molestiae tenetur modi alias fuga vitae dignissimos quaerat perferendis distinctio eius voluptate enim quisquam"
-                .split(" ")
-                .map((word, index) => (
+              {words.map((word, index) => (
+                <div key={index} className="relative inline-block">
+                  {index > currentWordIndex &&
+                    index <= currentWordIndex + 4 && (
+                      <motion.div
+                        style={{
+                          backgroundColor: wordTransforms[index].coverColor,
+                          scale: 1,
+                        }}
+                        className="absolute inset-0 rounded-full pointer-events-none"
+                      />
+                    )}
                   <motion.span
-                    key={index}
                     style={{
-                      opacity: OpacityForWord(index, 10959),
-                      WebkitMaskImage: MaskForWord(index, 20700),
-                      maskImage: MaskForWord(index, 20700),
+                      opacity: wordTransforms[index].opacity,
+                      WebkitMaskImage: wordTransforms[index].mask,
+                      maskImage: wordTransforms[index].mask,
                       WebkitMaskSize: "200% 100%",
                       maskSize: "200% 100%",
                       WebkitMaskRepeat: "no-repeat",
@@ -295,33 +288,8 @@ export const HomeView = () => {
                   >
                     {word}
                   </motion.span>
-                ))}
-            </div>
-          </div>
-
-          {/* Paragraph 2 */}
-          <div className="inline-block text-center">
-            <div className="text-left">
-              {"Lorem ipsum dolor sit amet consectetur adipisicing elit. Perspiciatis corporis cumque veritatis molestiae tenetur modi alias fuga vitae dignissimos quaerat perferendis distinctio eius voluptate enim quisquam"
-                .split(" ")
-                .map((word, index) => (
-                  <motion.span
-                    key={index}
-                    style={{
-                      opacity: OpacityForWord(index, 16500),
-                      WebkitMaskImage: MaskForWord(index, 20700),
-                      maskImage: MaskForWord(index, 20700),
-                      WebkitMaskSize: "200% 100%",
-                      maskSize: "200% 100%",
-                      WebkitMaskRepeat: "no-repeat",
-                      maskRepeat: "no-repeat",
-                      display: "inline-block",
-                    }}
-                    className={`text-4xl mr-2 leading-[1] font-dm font-[1000] tracking-tighter text-[#FCF9F0]`}
-                  >
-                    {word}
-                  </motion.span>
-                ))}
+                </div>
+              ))}
             </div>
           </div>
         </div>
