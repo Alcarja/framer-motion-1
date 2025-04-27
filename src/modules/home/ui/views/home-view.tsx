@@ -62,11 +62,13 @@ const CoverColorForWord = (
 };
 
 export const HomeView = () => {
-  const textRef = useRef(null);
-  const iconContainerRef = useRef(null);
+  const titleScreenRef = useRef(null); //First section
+  const iconsScreenRef = useRef(null); //Second section
+  const appearingWordsRef = useRef(null); //Third section
+  const fourthScreenRef = useRef(null); //Fourth section
 
   const { scrollY, scrollYProgress } = useScroll({
-    target: textRef,
+    target: titleScreenRef,
     offset: ["start start", "end start"],
   });
 
@@ -171,13 +173,40 @@ export const HomeView = () => {
     CoverColorForWord(scrollY, index, 16959)
   );
 
+  const { scrollYProgress: redSectionProgress } = useScroll({
+    target: fourthScreenRef,
+    offset: ["start end", "center start"],
+    // "start end" -> 0 when bottom hits viewport
+    // "center start" -> 1 when middle hits top
+  });
+
+  // Width transform from 80% -> 100%
+  const redSectionWidth = useTransform(
+    redSectionProgress,
+    [0, 0.2], // 👈 Grow to full width when just 5% into scroll
+    ["90%", "100%"]
+  );
+
+  //Position
+  const redSectionTextY = useTransform(
+    redSectionProgress,
+    [0, 0.2], // In the first 10% of the scroll
+    [500, 0] // From 100px below → to 0px (original position)
+  );
+
+  //Opacity
+  const redSectionTextOpacity = useTransform(
+    scrollY,
+    [2700, 2800, 10900, 12000],
+    [0, 1, 1, 0]
+  );
   return (
     <>
       {/* Background color changing */}
       <motion.div style={{ backgroundColor }}>
         {/* Top section (Title and Button) */}
         <div
-          ref={textRef}
+          ref={titleScreenRef}
           className="w-full h-[75vh] flex flex-col overflow-hidden"
         >
           <motion.div
@@ -201,7 +230,7 @@ export const HomeView = () => {
         {/* Icons moving */}
         <div className="relative h-[600vh] w-full">
           <div
-            ref={iconContainerRef}
+            ref={iconsScreenRef}
             className="sticky top-1/2 -translate-y-1/2 flex items-center justify-center h-0"
           >
             <motion.div
@@ -293,8 +322,11 @@ export const HomeView = () => {
       </motion.div>
 
       {/* Big Section with Words Animation */}
-      <motion.div className="w-full min-h-[1800vh] bg-[#141414] flex items-center justify-center text-white relative z-40">
-        <div className="flex flex-col items-center justify-center fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-center z-50 gap-7">
+      <motion.div
+        ref={appearingWordsRef}
+        className="relative min-h-[1100vh] w-full bg-[#141414] text-white z-40"
+      >
+        <div className="sticky top-1/2 -translate-y-1/2 flex flex-col items-center text-center gap-7 px-8 max-w-5xl mx-auto w-full">
           <div className="inline-block text-left">
             {/* Paragraph 1 */}
             <div className="text-left">
@@ -372,6 +404,20 @@ export const HomeView = () => {
               ))}
             </div>
           </div>
+        </div>
+      </motion.div>
+      <motion.div
+        ref={fourthScreenRef}
+        style={{ width: redSectionWidth }}
+        className="w-full min-h-[600vh] bg-[#FD6D38] mx-auto"
+      >
+        <div className="flex h-auto w-full items-center justify-center py-30 px-100 text-center">
+          <motion.p
+            style={{ y: redSectionTextY }}
+            className="text-[130px] text-[#141414] leading-[0.7] font-dm font-[1000] tracking-tighter"
+          >
+            Meet the team
+          </motion.p>
         </div>
       </motion.div>
     </>
