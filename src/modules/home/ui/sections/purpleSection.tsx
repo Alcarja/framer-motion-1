@@ -213,7 +213,7 @@ export const PurpleSection = ({
                 className="text-white font-dm font-[800] text-xl tracking-tighter"
               >
                 {purpleSectionProgress.get() > 0.55
-                  ? "***************************"
+                  ? "···························"
                   : "satoshinakamoto@mail.com"}
               </motion.p>
             </motion.div>
@@ -236,7 +236,7 @@ export const PurpleSection = ({
                 className="text-white font-dm font-[800] text-xl tracking-tighter"
               >
                 {purpleSectionProgress.get() > 0.65
-                  ? "*************"
+                  ? "·············"
                   : "Password123*?¿"}
               </motion.p>
             </motion.div>
