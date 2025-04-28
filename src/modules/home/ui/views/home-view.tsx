@@ -6,8 +6,15 @@ import {
   FilmIcon,
   GhostIcon,
   MoveIcon,
+  User,
 } from "lucide-react";
-import { motion, useScroll, useTransform, MotionValue } from "framer-motion";
+import {
+  motion,
+  useScroll,
+  useTransform,
+  MotionValue,
+  useMotionValueEvent,
+} from "framer-motion";
 import { useEffect, useRef, useState } from "react";
 import { Arrow1 } from "@/components/svgs/Arrow1";
 import { Arrow2 } from "@/components/svgs/Arrow2";
@@ -75,6 +82,11 @@ export const HomeView = () => {
   const [currentWordIndex1, setCurrentWordIndex1] = useState(0);
   const [currentWordIndex2, setCurrentWordIndex2] = useState(0);
 
+  //GET THE CURRENT Y VALUE
+  useMotionValueEvent(scrollY, "change", (value) => {
+    console.log("Current scrollY value:", value); // ✅ value is a number
+  });
+
   useEffect(() => {
     const unsubscribe = scrollY.on("change", (latest) => {
       const index1 = Math.floor((latest - 10959) / 200);
@@ -82,6 +94,7 @@ export const HomeView = () => {
       setCurrentWordIndex1(index1);
       setCurrentWordIndex2(index2);
     });
+
     return () => unsubscribe();
   }, [scrollY]);
 
@@ -173,6 +186,8 @@ export const HomeView = () => {
     CoverColorForWord(scrollY, index, 16959)
   );
 
+  // --- Words Section ---
+
   const { scrollYProgress: redSectionProgress } = useScroll({
     target: fourthScreenRef,
     offset: ["start end", "center start"],
@@ -195,11 +210,93 @@ export const HomeView = () => {
   );
 
   //Opacity
-  const redSectionTextOpacity = useTransform(
-    scrollY,
-    [2700, 2800, 10900, 12000],
-    [0, 1, 1, 0]
+  const redSectionTextOpacity = useTransform(scrollY, [23426, 23719], [0, 1]);
+
+  // --- Yellow Box ---
+
+  //Position
+
+  const yellowBoxPosition = useTransform(
+    redSectionProgress,
+    [0.21, 0.22], // over first 20% of the section scroll
+    [50, 0] // start 300px to the left, then slide into position
   );
+
+  const yellowBoxOpacity = useTransform(
+    redSectionProgress,
+    [0.19, 0.2], // over first 20% of the section scroll
+    [0, 1]
+  );
+
+  //PROGRESS BAR
+  // --- Percentage number ---
+  const animatedPercent = useTransform(
+    redSectionProgress,
+    [0.21, 1], // progress scroll from start (0) to end (1)
+    [1, 100] // map it from 1% to 100%
+  );
+
+  const [percent, setPercent] = useState(1);
+
+  useMotionValueEvent(animatedPercent, "change", (latest) => {
+    setPercent(Math.round(latest));
+  });
+
+  const progressBarWidth = useTransform(
+    redSectionProgress,
+    [0.21, 1],
+    ["0%", "100%"]
+  );
+
+  //RED SECTION ICONS
+  const redSectionIcon1XPosition = useTransform(
+    redSectionProgress,
+    [0.27, 0.3], // progress scroll from start (0) to end (1)
+    [50, 0] // map it from 1% to 100%
+  );
+
+  const redSectionIcon1Opacity = useTransform(
+    redSectionProgress,
+    [0.27, 0.28], // progress scroll from start (0) to end (1)
+    [0, 1] // map it from 1% to 100%
+  );
+
+  const redSectionIcon2XPosition = useTransform(
+    redSectionProgress,
+    [0.3, 0.33], // progress scroll from start (0) to end (1)
+    [50, 0] // map it from 1% to 100%
+  );
+
+  const redSectionIcon2Opacity = useTransform(
+    redSectionProgress,
+    [0.3, 0.31], // progress scroll from start (0) to end (1)
+    [0, 1] // map it from 1% to 100%
+  );
+
+  const redSectionIcon3XPosition = useTransform(
+    redSectionProgress,
+    [0.35, 0.38], // progress scroll from start (0) to end (1)
+    [50, 0] // map it from 1% to 100%
+  );
+
+  const redSectionIcon3Opacity = useTransform(
+    redSectionProgress,
+    [0.33, 0.35], // progress scroll from start (0) to end (1)
+    [0, 1] // map it from 1% to 100%
+  );
+
+  const redSectionIcon4XPosition = useTransform(
+    redSectionProgress,
+    [0.41, 0.45], // progress scroll from start (0) to end (1)
+    [50, 0] // map it from 1% to 100%
+  );
+
+  const redSectionIcon4Opacity = useTransform(
+    redSectionProgress,
+    [0.38, 0.41], // progress scroll from start (0) to end (1)
+    [0, 1] // map it from 1% to 100%
+  );
+
   return (
     <>
       {/* Background color changing */}
@@ -409,15 +506,95 @@ export const HomeView = () => {
       <motion.div
         ref={fourthScreenRef}
         style={{ width: redSectionWidth }}
-        className="w-full min-h-[600vh] bg-[#FD6D38] mx-auto"
+        className="w-full min-h-[600vh] bg-[#FD6D38] mx-auto rounded-lg"
       >
-        <div className="flex h-auto w-full items-center justify-center py-30 px-100 text-center">
+        <div className="sticky top-1/2 -translate-y-1/2 flex flex-col h-auto w-full items-center justify-center py-30 px-100 text-center">
           <motion.p
-            style={{ y: redSectionTextY }}
-            className="text-[130px] text-[#141414] leading-[0.7] font-dm font-[1000] tracking-tighter"
+            style={{ y: redSectionTextY, opacity: redSectionTextOpacity }}
+            className="text-[130px] text-[#141414] leading-[0.8] font-dm font-[1000] tracking-tighter mb-[100px]"
           >
-            Meet the team
+            Check your progress
           </motion.p>
+
+          {/* Yellow div */}
+          <motion.div
+            style={{ x: yellowBoxPosition, opacity: yellowBoxOpacity }}
+            className="w-[350px] h-auto border border-black rounded-md bg-[#FFC313] flex flex-col overflow-hidden px-8 py-4 mb-4"
+          >
+            {/* Top part */}
+            <div className="w-full flex flex-2 items-start justify-between mb-4">
+              <div className="flex items-start gap-1">
+                <p className="text-[#141414] font-dm font-[1000] text-[30px] leading-[0.8]">
+                  {percent.toString().padStart(2, "0")}
+                </p>
+                <p className="text-[#141414] font-dm font-[1000] text-[30px] leading-[0.8]">
+                  %
+                </p>
+              </div>
+              <div className="text-[#141414] font-dm font-[1000]">
+                Progress text
+              </div>
+            </div>
+
+            <div className="flex-1 w-full flex items-center justify-center">
+              <div className="relative w-full h-[15px] border border-black rounded-full bg-gray-200 overflow-hidden">
+                <motion.div
+                  style={{
+                    width: progressBarWidth, // only width animates
+                  }}
+                  className="h-full rounded-l-full bg-[#7A78FF]" // <-- fixed color here (purple)
+                />
+              </div>
+            </div>
+          </motion.div>
+          <div className="w-[350px] h-auto flex items-start justify-start gap-3 mb-2">
+            <motion.div
+              style={{
+                opacity: redSectionIcon1Opacity,
+                x: redSectionIcon1XPosition,
+              }}
+              className="h-[50px] w-[50px] border border-black rounded-sm bg-[#7A78FF] flex items-center justify-center"
+            >
+              <User className="h-[30px] w-[30px] text-black" />
+            </motion.div>
+            <motion.div
+              style={{
+                opacity: redSectionIcon2Opacity,
+                x: redSectionIcon2XPosition,
+              }}
+              className="h-[50px] w-auto px-5 py-2 border border-black rounded-full bg-black flex items-center justify-center"
+            >
+              <p className="text-white font-dm font-[800] text-xl tracking-tighter">
+                Satoshi Nakamoto
+              </p>
+            </motion.div>
+          </div>
+          <div className="w-[350px] h-auto flex items-start justify-start gap-3 mb-2">
+            <motion.div
+              style={{
+                opacity: redSectionIcon3Opacity,
+                x: redSectionIcon3XPosition,
+              }}
+              className="h-[50px] w-auto px-5 py-2 border border-black rounded-full bg-transparent flex items-center justify-center"
+            >
+              <p className="text-white font-dm font-[800] text-xl tracking-tighter">
+                satoshinakamoto@laugh.com
+              </p>
+            </motion.div>
+          </div>
+          <div className="w-[350px] h-auto flex items-start justify-start gap-3">
+            <motion.div
+              style={{
+                opacity: redSectionIcon4Opacity,
+                x: redSectionIcon4XPosition,
+              }}
+              className="h-[50px] w-auto px-5 py-2 border border-black rounded-full bg-transparent flex items-center justify-center"
+            >
+              <p className="text-white font-dm font-[800] text-xl tracking-tighter">
+                Password123=?*
+              </p>
+            </motion.div>
+          </div>
         </div>
       </motion.div>
     </>
