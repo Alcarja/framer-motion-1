@@ -186,7 +186,7 @@ export const HomeView = () => {
     CoverColorForWord(scrollY, index, 16959)
   );
 
-  // --- Words Section ---
+  // --- RED SECTION ---
 
   const { scrollYProgress: redSectionProgress } = useScroll({
     target: fourthScreenRef,
@@ -577,9 +577,15 @@ export const HomeView = () => {
               }}
               className="h-[50px] w-auto px-5 py-2 border border-black rounded-full bg-transparent flex items-center justify-center"
             >
-              <p className="text-white font-dm font-[800] text-xl tracking-tighter">
-                satoshinakamoto@laugh.com
-              </p>
+              <motion.p
+                style={{ y: redSectionTextY }}
+                transition={{ duration: 1.5, ease: "easeInOut" }}
+                className="text-white font-dm font-[800] text-xl tracking-tighter"
+              >
+                {redSectionProgress.get() > 0.55
+                  ? "***************************"
+                  : "satoshinakamoto@mail.com"}
+              </motion.p>
             </motion.div>
           </div>
           <div className="w-[350px] h-auto flex items-start justify-start gap-3">
@@ -590,9 +596,15 @@ export const HomeView = () => {
               }}
               className="h-[50px] w-auto px-5 py-2 border border-black rounded-full bg-transparent flex items-center justify-center"
             >
-              <p className="text-white font-dm font-[800] text-xl tracking-tighter">
-                Password123=?*
-              </p>
+              <motion.p
+                style={{ y: redSectionTextY }}
+                transition={{ duration: 1.5, ease: "easeInOut" }}
+                className="text-white font-dm font-[800] text-xl tracking-tighter"
+              >
+                {redSectionProgress.get() > 0.65
+                  ? "*************"
+                  : "Password123*?¿"}
+              </motion.p>
             </motion.div>
           </div>
         </div>
