@@ -5,8 +5,9 @@ import {
   FileIcon,
   FilmIcon,
   GhostIcon,
+  LockIcon,
   MoveIcon,
-  User,
+  UnlockIcon,
 } from "lucide-react";
 import {
   motion,
@@ -236,6 +237,12 @@ export const HomeView = () => {
     [1, 100] // map it from 1% to 100%
   );
 
+  const yellowDivColor = useTransform(
+    redSectionProgress,
+    [0.21, 1], // progress scroll from start (0) to end (1)
+    ["#FFC313", "#FF6D38"] // map it from 1% to 100%
+  );
+
   const [percent, setPercent] = useState(1);
 
   useMotionValueEvent(animatedPercent, "change", (latest) => {
@@ -261,6 +268,12 @@ export const HomeView = () => {
     [0, 1] // map it from 1% to 100%
   );
 
+  const redSectionIcon1BgColor = useTransform(
+    redSectionProgress,
+    [0.8, 0.85], // progress scroll from start (0) to end (1)
+    ["#FD6D38", "#40b650"] // map it from 1% to 100%
+  );
+
   const redSectionIcon2XPosition = useTransform(
     redSectionProgress,
     [0.3, 0.33], // progress scroll from start (0) to end (1)
@@ -275,26 +288,26 @@ export const HomeView = () => {
 
   const redSectionIcon3XPosition = useTransform(
     redSectionProgress,
-    [0.35, 0.38], // progress scroll from start (0) to end (1)
-    [50, 0] // map it from 1% to 100%
+    [0.35, 0.38, 0.9, 0.95], // progress scroll from start (0) to end (1)
+    [50, 0, 0, 50] // map it from 1% to 100%
   );
 
   const redSectionIcon3Opacity = useTransform(
     redSectionProgress,
-    [0.33, 0.35], // progress scroll from start (0) to end (1)
-    [0, 1] // map it from 1% to 100%
+    [0.33, 0.35, 0.9, 0.95], // progress scroll from start (0) to end (1)
+    [0, 1, 1, 0] // map it from 1% to 100%
   );
 
   const redSectionIcon4XPosition = useTransform(
     redSectionProgress,
-    [0.41, 0.45], // progress scroll from start (0) to end (1)
-    [50, 0] // map it from 1% to 100%
+    [0.41, 0.45, 0.9, 0.95], // progress scroll from start (0) to end (1)
+    [50, 0, 0, 50] // map it from 1% to 100%
   );
 
   const redSectionIcon4Opacity = useTransform(
     redSectionProgress,
-    [0.38, 0.41], // progress scroll from start (0) to end (1)
-    [0, 1] // map it from 1% to 100%
+    [0.38, 0.41, 0.9, 0.95], // progress scroll from start (0) to end (1)
+    [0, 1, 1, 0] // map it from 1% to 100%
   );
 
   return (
@@ -506,7 +519,7 @@ export const HomeView = () => {
       <motion.div
         ref={fourthScreenRef}
         style={{ width: redSectionWidth }}
-        className="w-full min-h-[600vh] bg-[#FD6D38] mx-auto rounded-lg"
+        className="w-full min-h-[600vh] bg-[#8584FF] mx-auto rounded-lg"
       >
         <div className="sticky top-1/2 -translate-y-1/2 flex flex-col h-auto w-full items-center justify-center py-30 px-100 text-center">
           <motion.p
@@ -518,8 +531,12 @@ export const HomeView = () => {
 
           {/* Yellow div */}
           <motion.div
-            style={{ x: yellowBoxPosition, opacity: yellowBoxOpacity }}
-            className="w-[350px] h-auto border border-black rounded-md bg-[#FFC313] flex flex-col overflow-hidden px-8 py-4 mb-4"
+            style={{
+              x: yellowBoxPosition,
+              opacity: yellowBoxOpacity,
+              backgroundColor: yellowDivColor,
+            }}
+            className="w-[350px] h-auto border border-black rounded-md flex flex-col overflow-hidden px-8 py-4 mb-4"
           >
             {/* Top part */}
             <div className="w-full flex flex-2 items-start justify-between mb-4">
@@ -531,8 +548,10 @@ export const HomeView = () => {
                   %
                 </p>
               </div>
-              <div className="text-[#141414] font-dm font-[1000]">
-                Progress text
+              <div className="text-[#141414] font-dm font-[1000] text-sm">
+                {redSectionProgress.get() < 0.85
+                  ? "Accessing data..."
+                  : "Locked in"}
               </div>
             </div>
 
@@ -540,9 +559,9 @@ export const HomeView = () => {
               <div className="relative w-full h-[15px] border border-black rounded-full bg-gray-200 overflow-hidden">
                 <motion.div
                   style={{
-                    width: progressBarWidth, // only width animates
+                    width: progressBarWidth,
                   }}
-                  className="h-full rounded-l-full bg-[#7A78FF]" // <-- fixed color here (purple)
+                  className={"h-full rounded-l-full bg-[#7A78FF]"}
                 />
               </div>
             </div>
@@ -552,10 +571,15 @@ export const HomeView = () => {
               style={{
                 opacity: redSectionIcon1Opacity,
                 x: redSectionIcon1XPosition,
+                backgroundColor: redSectionIcon1BgColor,
               }}
-              className="h-[50px] w-[50px] border border-black rounded-sm bg-[#7A78FF] flex items-center justify-center"
+              className="h-[50px] w-[50px] border border-black rounded-sm flex items-center justify-center"
             >
-              <User className="h-[30px] w-[30px] text-black" />
+              {redSectionProgress.get() > 0.7 ? (
+                <UnlockIcon className="h-[30px] w-[30px] text-black" />
+              ) : (
+                <LockIcon className="h-[30px] w-[30px] text-black" />
+              )}
             </motion.div>
             <motion.div
               style={{
@@ -570,42 +594,46 @@ export const HomeView = () => {
             </motion.div>
           </div>
           <div className="w-[350px] h-auto flex items-start justify-start gap-3 mb-2">
-            <motion.div
-              style={{
-                opacity: redSectionIcon3Opacity,
-                x: redSectionIcon3XPosition,
-              }}
-              className="h-[50px] w-auto px-5 py-2 border border-black rounded-full bg-transparent flex items-center justify-center"
-            >
-              <motion.p
-                style={{ y: redSectionTextY }}
-                transition={{ duration: 1.5, ease: "easeInOut" }}
-                className="text-white font-dm font-[800] text-xl tracking-tighter"
+            {redSectionProgress.get() < 0.95 && (
+              <motion.div
+                style={{
+                  opacity: redSectionIcon3Opacity,
+                  x: redSectionIcon3XPosition,
+                }}
+                className="h-[50px] w-auto px-5 py-2 border border-black rounded-full bg-transparent flex items-center justify-center"
               >
-                {redSectionProgress.get() > 0.55
-                  ? "***************************"
-                  : "satoshinakamoto@mail.com"}
-              </motion.p>
-            </motion.div>
+                <motion.p
+                  style={{ y: redSectionTextY }}
+                  transition={{ duration: 1.5, ease: "easeInOut" }}
+                  className="text-white font-dm font-[800] text-xl tracking-tighter"
+                >
+                  {redSectionProgress.get() > 0.55
+                    ? "***************************"
+                    : "satoshinakamoto@mail.com"}
+                </motion.p>
+              </motion.div>
+            )}
           </div>
-          <div className="w-[350px] h-auto flex items-start justify-start gap-3">
-            <motion.div
-              style={{
-                opacity: redSectionIcon4Opacity,
-                x: redSectionIcon4XPosition,
-              }}
-              className="h-[50px] w-auto px-5 py-2 border border-black rounded-full bg-transparent flex items-center justify-center"
-            >
-              <motion.p
-                style={{ y: redSectionTextY }}
-                transition={{ duration: 1.5, ease: "easeInOut" }}
-                className="text-white font-dm font-[800] text-xl tracking-tighter"
+          <div className="w-[350px] h-auto flex items-start justify-start gap-3 mb-2">
+            {redSectionProgress.get() < 0.95 && (
+              <motion.div
+                style={{
+                  opacity: redSectionIcon4Opacity,
+                  x: redSectionIcon4XPosition,
+                }}
+                className="h-[50px] w-auto px-5 py-2 border border-black rounded-full bg-transparent flex items-center justify-center"
               >
-                {redSectionProgress.get() > 0.65
-                  ? "*************"
-                  : "Password123*?¿"}
-              </motion.p>
-            </motion.div>
+                <motion.p
+                  style={{ y: redSectionTextY }}
+                  transition={{ duration: 1.5, ease: "easeInOut" }}
+                  className="text-white font-dm font-[800] text-xl tracking-tighter"
+                >
+                  {redSectionProgress.get() > 0.65
+                    ? "*************"
+                    : "Password123*?¿"}
+                </motion.p>
+              </motion.div>
+            )}
           </div>
         </div>
       </motion.div>
