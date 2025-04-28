@@ -434,7 +434,7 @@ export const HomeView = () => {
       {/* Big Section with Words Animation */}
       <motion.div
         ref={appearingWordsRef}
-        className="relative min-h-[1700vh] w-full bg-[#141414] text-white z-40"
+        className="relative min-h-[1400vh] w-full bg-[#141414] text-white z-40"
       >
         <div className="sticky top-1/2 -translate-y-1/2 flex flex-col items-center text-center gap-7 px-8 max-w-5xl mx-auto w-full">
           <div className="inline-block text-left">
