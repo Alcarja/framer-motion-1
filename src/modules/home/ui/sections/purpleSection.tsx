@@ -11,108 +11,120 @@ import { LockIcon, UnlockIcon } from "lucide-react";
 
 interface PurpleSectionProps {
   scrollY: MotionValue<number>;
-  redSectionProgress: MotionValue<number>;
-  fourthScreenRef: RefObject<HTMLDivElement | null> | null;
+  purpleSectionProgress: MotionValue<number>;
+  purpleSectionRef: RefObject<HTMLDivElement | null>;
 }
 
 export const PurpleSection = ({
   scrollY,
-  redSectionProgress,
-  fourthScreenRef,
+  purpleSectionProgress,
+  purpleSectionRef,
 }: PurpleSectionProps) => {
-  const redSectionWidth = useTransform(
-    redSectionProgress,
+  const purpleSectionWidth = useTransform(
+    purpleSectionProgress,
     [0, 0.2],
     ["90%", "100%"]
   );
-  const redSectionTextY = useTransform(redSectionProgress, [0, 0.2], [500, 0]);
-  const redSectionTextOpacity = useTransform(scrollY, [23426, 23719], [0, 1]);
+  const purpleSectionTextY = useTransform(
+    purpleSectionProgress,
+    [0, 0.2],
+    [500, 0]
+  );
+  const purpleSectionTextOpacity = useTransform(
+    scrollY,
+    [23426, 23719],
+    [0, 1]
+  );
 
   const yellowBoxPosition = useTransform(
-    redSectionProgress,
+    purpleSectionProgress,
     [0.21, 0.22],
     [50, 0]
   );
   const yellowBoxOpacity = useTransform(
-    redSectionProgress,
+    purpleSectionProgress,
     [0.19, 0.2],
     [0, 1]
   );
   const yellowDivColor = useTransform(
-    redSectionProgress,
+    purpleSectionProgress,
     [0.21, 1],
     ["#FFC313", "#FF6D38"]
   );
 
   const progressBarWidth = useTransform(
-    redSectionProgress,
+    purpleSectionProgress,
     [0.21, 1],
     ["0%", "100%"]
   );
-  const animatedPercent = useTransform(redSectionProgress, [0.21, 1], [1, 100]);
+  const animatedPercent = useTransform(
+    purpleSectionProgress,
+    [0.21, 1],
+    [1, 100]
+  );
   const [percent, setPercent] = useState(1);
   useMotionValueEvent(animatedPercent, "change", (latest) =>
     setPercent(Math.round(latest))
   );
 
-  const redSectionIcon1XPosition = useTransform(
-    redSectionProgress,
+  const purpleSectionIcon1XPosition = useTransform(
+    purpleSectionProgress,
     [0.27, 0.3],
     [50, 0]
   );
-  const redSectionIcon1Opacity = useTransform(
-    redSectionProgress,
+  const purpleSectionIcon1Opacity = useTransform(
+    purpleSectionProgress,
     [0.27, 0.28],
     [0, 1]
   );
-  const redSectionIcon1BgColor = useTransform(
-    redSectionProgress,
+  const purpleSectionIcon1BgColor = useTransform(
+    purpleSectionProgress,
     [0.8, 0.85],
     ["#FD6D38", "#40b650"]
   );
 
-  const redSectionIcon2XPosition = useTransform(
-    redSectionProgress,
+  const purpleSectionIcon2XPosition = useTransform(
+    purpleSectionProgress,
     [0.3, 0.33],
     [50, 0]
   );
-  const redSectionIcon2Opacity = useTransform(
-    redSectionProgress,
+  const purpleSectionIcon2Opacity = useTransform(
+    purpleSectionProgress,
     [0.3, 0.31],
     [0, 1]
   );
 
-  const redSectionIcon3XPosition = useTransform(
-    redSectionProgress,
+  const purpleSectionIcon3XPosition = useTransform(
+    purpleSectionProgress,
     [0.35, 0.38, 0.9, 0.95],
     [50, 0, 0, 50]
   );
-  const redSectionIcon3Opacity = useTransform(
-    redSectionProgress,
+  const purpleSectionIcon3Opacity = useTransform(
+    purpleSectionProgress,
     [0.33, 0.35, 0.9, 0.95],
     [0, 1, 1, 0]
   );
 
-  const redSectionIcon4XPosition = useTransform(
-    redSectionProgress,
+  const purpleSectionIcon4XPosition = useTransform(
+    purpleSectionProgress,
     [0.41, 0.45, 0.9, 0.95],
     [50, 0, 0, 50]
   );
-  const redSectionIcon4Opacity = useTransform(
-    redSectionProgress,
+  const purpleSectionIcon4Opacity = useTransform(
+    purpleSectionProgress,
     [0.38, 0.41, 0.9, 0.95],
     [0, 1, 1, 0]
   );
 
   return (
     <motion.div
-      ref={fourthScreenRef}
-      style={{ width: redSectionWidth }}
+      ref={purpleSectionRef}
+      style={{ width: purpleSectionWidth }}
       className="w-full min-h-[600vh] bg-[#8584FF] mx-auto rounded-lg"
     >
       <div className="sticky top-1/2 -translate-y-1/2 flex flex-col h-auto w-full items-center justify-center py-30 px-100 text-center">
         <motion.p
-          style={{ y: redSectionTextY, opacity: redSectionTextOpacity }}
+          style={{ y: purpleSectionTextY, opacity: purpleSectionTextOpacity }}
           className="text-[130px] text-[#141414] leading-[0.8] font-dm font-[1000] tracking-tighter mb-[100px]"
         >
           Check your progress
@@ -138,7 +150,7 @@ export const PurpleSection = ({
               </p>
             </div>
             <div className="text-[#141414] font-dm font-[1000] text-sm">
-              {redSectionProgress.get() < 0.85
+              {purpleSectionProgress.get() < 0.85
                 ? "Accessing data..."
                 : "Locked in"}
             </div>
@@ -155,17 +167,17 @@ export const PurpleSection = ({
           </div>
         </motion.div>
 
-        {/* Red Section Icons */}
+        {/* purple Section Icons */}
         <div className="w-[350px] h-auto flex items-start justify-start gap-3 mb-2">
           <motion.div
             style={{
-              opacity: redSectionIcon1Opacity,
-              x: redSectionIcon1XPosition,
-              backgroundColor: redSectionIcon1BgColor,
+              opacity: purpleSectionIcon1Opacity,
+              x: purpleSectionIcon1XPosition,
+              backgroundColor: purpleSectionIcon1BgColor,
             }}
             className="h-[50px] w-[50px] border border-black rounded-sm flex items-center justify-center"
           >
-            {redSectionProgress.get() > 0.7 ? (
+            {purpleSectionProgress.get() > 0.7 ? (
               <UnlockIcon className="h-[30px] w-[30px] text-black" />
             ) : (
               <LockIcon className="h-[30px] w-[30px] text-black" />
@@ -174,8 +186,8 @@ export const PurpleSection = ({
 
           <motion.div
             style={{
-              opacity: redSectionIcon2Opacity,
-              x: redSectionIcon2XPosition,
+              opacity: purpleSectionIcon2Opacity,
+              x: purpleSectionIcon2XPosition,
             }}
             className="h-[50px] w-auto px-5 py-2 border border-black rounded-full bg-black flex items-center justify-center"
           >
@@ -187,20 +199,20 @@ export const PurpleSection = ({
 
         {/* Email reveal */}
         <div className="w-[350px] h-auto flex items-start justify-start gap-3 mb-2">
-          {redSectionProgress.get() < 0.95 && (
+          {purpleSectionProgress.get() < 0.95 && (
             <motion.div
               style={{
-                opacity: redSectionIcon3Opacity,
-                x: redSectionIcon3XPosition,
+                opacity: purpleSectionIcon3Opacity,
+                x: purpleSectionIcon3XPosition,
               }}
               className="h-[50px] w-auto px-5 py-2 border border-black rounded-full bg-transparent flex items-center justify-center"
             >
               <motion.p
-                style={{ y: redSectionTextY }}
+                style={{ y: purpleSectionTextY }}
                 transition={{ duration: 1.5, ease: "easeInOut" }}
                 className="text-white font-dm font-[800] text-xl tracking-tighter"
               >
-                {redSectionProgress.get() > 0.55
+                {purpleSectionProgress.get() > 0.55
                   ? "***************************"
                   : "satoshinakamoto@mail.com"}
               </motion.p>
@@ -210,20 +222,20 @@ export const PurpleSection = ({
 
         {/* Password reveal */}
         <div className="w-[350px] h-auto flex items-start justify-start gap-3 mb-2">
-          {redSectionProgress.get() < 0.95 && (
+          {purpleSectionProgress.get() < 0.95 && (
             <motion.div
               style={{
-                opacity: redSectionIcon4Opacity,
-                x: redSectionIcon4XPosition,
+                opacity: purpleSectionIcon4Opacity,
+                x: purpleSectionIcon4XPosition,
               }}
               className="h-[50px] w-auto px-5 py-2 border border-black rounded-full bg-transparent flex items-center justify-center"
             >
               <motion.p
-                style={{ y: redSectionTextY }}
+                style={{ y: purpleSectionTextY }}
                 transition={{ duration: 1.5, ease: "easeInOut" }}
                 className="text-white font-dm font-[800] text-xl tracking-tighter"
               >
-                {redSectionProgress.get() > 0.65
+                {purpleSectionProgress.get() > 0.65
                   ? "*************"
                   : "Password123*?¿"}
               </motion.p>

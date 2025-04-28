@@ -13,15 +13,15 @@ export const HomeView = () => {
   const titleScreenRef = useRef<HTMLDivElement>(null);
   const iconsScreenRef = useRef<HTMLDivElement>(null);
   const appearingWordsRef = useRef<HTMLDivElement>(null);
-  const fourthScreenRef = useRef<HTMLDivElement>(null);
+  const purpleSectionRef = useRef<HTMLDivElement>(null);
 
   const { scrollY, scrollYProgress } = useScroll({
     target: titleScreenRef,
     offset: ["start start", "end start"],
   });
 
-  const { scrollYProgress: redSectionProgress } = useScroll({
-    target: fourthScreenRef,
+  const { scrollYProgress: purpleSectionProgress } = useScroll({
+    target: purpleSectionRef,
     offset: ["start end", "center start"],
   });
 
@@ -64,8 +64,8 @@ export const HomeView = () => {
 
       <PurpleSection
         scrollY={scrollY}
-        redSectionProgress={redSectionProgress}
-        fourthScreenRef={fourthScreenRef}
+        purpleSectionProgress={purpleSectionProgress}
+        purpleSectionRef={purpleSectionRef}
       />
     </>
   );
