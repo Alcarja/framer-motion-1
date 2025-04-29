@@ -322,9 +322,14 @@ export const GreenSection = ({
         {/* Right Column */}
         <div className="flex flex-col justify-start items-start gap-3 w-1/2">
           <p className="text-black font-dm font-[500]">Types of navigator</p>
-          <h3 className="text-black font-dm font-[1000] text-left text-3xl tracking-tighter">
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Totam aut
-            saepe cum, tempore tempora temporibus dolor id. Ipsa tempori.
+          <h3 className="text-black font-dm font-[1000] text-left text-4xl tracking-tighter">
+            Lorem ipsum dolor sit amet consectetur, adipisicing elit. Corporis,
+            debitis. Dignissimos porro sequi, ducimus cupiditate voluptatibus
+            culpa beatae possimus dolorum odit expedita molestias ex recusandae
+            fuga corporis mollitia est nulla asperiores sint doloremque,
+            similique ratione accusantium! Consequuntur provident, incidunt
+            officia hic placeat atque veritatis quia at sapiente molestias.
+            Tenetur, cumque.
           </h3>
         </div>
       </div>
