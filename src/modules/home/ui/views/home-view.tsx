@@ -27,11 +27,6 @@ export const HomeView = () => {
     offset: ["start end", "center start"],
   });
 
-  const { scrollYProgress: greenSectionProgress } = useScroll({
-    target: greenSectionRef,
-    offset: ["start end", "center start"],
-  });
-
   const backgroundColor = useTransform(scrollY, (y) =>
     y >= 1200 ? "#FEF9F0" : "#000000"
   );
@@ -75,11 +70,7 @@ export const HomeView = () => {
         purpleSectionRef={purpleSectionRef}
       />
 
-      <GreenSection
-        scrollY={scrollY}
-        greenSectionRef={greenSectionRef}
-        greenSectionProgress={greenSectionProgress}
-      />
+      <GreenSection scrollY={scrollY} greenSectionRef={greenSectionRef} />
     </>
   );
 };
