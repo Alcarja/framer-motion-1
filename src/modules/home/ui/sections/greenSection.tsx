@@ -251,7 +251,7 @@ export const GreenSection = ({
                   originX: 0.5,
                   originY: 0,
                 }}
-                className="w-[140px] h-[140px] border border-black rounded-xl bg-[#E6EBFF] flex items-center justify-center relative"
+                className="w-[250px] h-[130px] border border-black rounded-xl bg-[#E6EBFF] flex items-center justify-center relative"
               >
                 <svg
                   viewBox="0 0 100 100"
