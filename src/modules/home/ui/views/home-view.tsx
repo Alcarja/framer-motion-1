@@ -1,19 +1,21 @@
 "use client";
 
 import { useRef } from "react";
-import { useMotionValueEvent, useScroll, useTransform } from "framer-motion";
-import { TitleSection } from "../sections/titleSection";
-import { AppearingWordsSection } from "../sections/appearingWordsSection";
-import { ArrowsSection } from "../sections/arrowsSection";
-import { IconsSection } from "../sections/iconsSection";
-import { PurpleSection } from "../sections/purpleSection";
 import { motion } from "framer-motion";
+import { TitleSection } from "../sections/titleSection";
+import { IconsSection } from "../sections/iconsSection";
+import { ArrowsSection } from "../sections/arrowsSection";
+import { PurpleSection } from "../sections/purpleSection";
+import { AppearingWordsSection } from "../sections/appearingWordsSection";
+import { useMotionValueEvent, useScroll, useTransform } from "framer-motion";
+import { GreenSection } from "../sections/greenSection";
 
 export const HomeView = () => {
   const titleScreenRef = useRef<HTMLDivElement>(null);
   const iconsScreenRef = useRef<HTMLDivElement>(null);
   const appearingWordsRef = useRef<HTMLDivElement>(null);
   const purpleSectionRef = useRef<HTMLDivElement>(null);
+  const greenSectionRef = useRef<HTMLDivElement>(null);
 
   const { scrollY, scrollYProgress } = useScroll({
     target: titleScreenRef,
@@ -22,6 +24,11 @@ export const HomeView = () => {
 
   const { scrollYProgress: purpleSectionProgress } = useScroll({
     target: purpleSectionRef,
+    offset: ["start end", "center start"],
+  });
+
+  const { scrollYProgress: greenSectionProgress } = useScroll({
+    target: greenSectionRef,
     offset: ["start end", "center start"],
   });
 
@@ -66,6 +73,12 @@ export const HomeView = () => {
         scrollY={scrollY}
         purpleSectionProgress={purpleSectionProgress}
         purpleSectionRef={purpleSectionRef}
+      />
+
+      <GreenSection
+        scrollY={scrollY}
+        greenSectionRef={greenSectionRef}
+        greenSectionProgress={greenSectionProgress}
       />
     </>
   );

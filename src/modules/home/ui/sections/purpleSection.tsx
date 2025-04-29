@@ -23,13 +23,15 @@ export const PurpleSection = ({
   const purpleSectionWidth = useTransform(
     purpleSectionProgress,
     [0, 0.2],
-    ["90%", "100%"]
+    ["80%", "100%"]
   );
+
   const purpleSectionTextY = useTransform(
     purpleSectionProgress,
     [0, 0.2],
     [500, 0]
   );
+
   const purpleSectionTextOpacity = useTransform(
     scrollY,
     [23426, 23719],
@@ -48,7 +50,7 @@ export const PurpleSection = ({
   );
   const yellowDivColor = useTransform(
     purpleSectionProgress,
-    [0.21, 1],
+    [0.21, 0.95],
     ["#FFC313", "#FF6D38"]
   );
 
@@ -59,7 +61,7 @@ export const PurpleSection = ({
   );
   const animatedPercent = useTransform(
     purpleSectionProgress,
-    [0.21, 1],
+    [0.21, 0.95],
     [1, 100]
   );
   const [percent, setPercent] = useState(1);
@@ -110,6 +112,7 @@ export const PurpleSection = ({
     [0.41, 0.45, 0.9, 0.95],
     [50, 0, 0, 50]
   );
+
   const purpleSectionIcon4Opacity = useTransform(
     purpleSectionProgress,
     [0.38, 0.41, 0.9, 0.95],
@@ -120,9 +123,9 @@ export const PurpleSection = ({
     <motion.div
       ref={purpleSectionRef}
       style={{ width: purpleSectionWidth }}
-      className="w-full min-h-[600vh] bg-[#8584FF] mx-auto rounded-lg"
+      className="w-full min-h-[520vh] bg-[#8584FF] mx-auto rounded-lg"
     >
-      <div className="sticky top-1/2 -translate-y-1/2 flex flex-col h-auto w-full items-center justify-center py-30 px-100 text-center">
+      <div className="sticky top-1/2 -translate-y-1/2 flex flex-col h-auto w-full items-center justify-center py-10 px-100 text-center">
         <motion.p
           style={{ y: purpleSectionTextY, opacity: purpleSectionTextOpacity }}
           className="text-[130px] text-[#141414] leading-[0.8] font-dm font-[1000] tracking-tighter mb-[100px]"
